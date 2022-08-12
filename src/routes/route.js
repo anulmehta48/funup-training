@@ -170,5 +170,43 @@ router.post('/players', function (req, res) {
 })
 
 
+router.post('/voting',function(req,res){
+    let person=[
+        {
+            name:"PK",
+            age:10,
+            votingStatus:false
+        },
+        {
+            name:"SK",
+            age:20,
+            votingStatus:false
+        },
+        {
+            name:"AA",
+            age:70,
+            votingStatus:false
+        },
+        {
+            name:"SC",
+            age:5,
+            votingStatus:false
+        },
+        {
+            name:"HO",
+            age:40,
+            votingStatus:false
+        }
+    ]
+    inputAge=req.query.age
+    person.map(p=>(p.age>inputAge)?p.votingStatus=true:p.votingStatus)
+    let result=person.filter(p=>{if(p.votingStatus==true){return p.name}})
+    res.send({data:result})
+})
+
+
+
+
+
 
 module.exports = router;
