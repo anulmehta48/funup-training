@@ -5,6 +5,8 @@ const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
 const BookcollectionController=require('../controllers/bookcollectionController')
 const AuthorcollectionController=require('../controllers/authorcollectionController')
+const AutherRefPopController=require('../controllers/authorrefpopController')
+const BookRefPopController=require('../controllers/bookrefpopController')
 router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
@@ -28,8 +30,9 @@ router.get('/updateInfo',BookcollectionController.updateInfo)
 router.get('/bookRange',BookcollectionController.bookRange)
 
 
-
-
+router.post('/createauthor',AutherRefPopController.createauthor)
+router.post('/createbooks',BookRefPopController.createbooks)
+router.get('/getBookandAuthorDetails',BookRefPopController.getBookandAuthorDetails)
 
 
 

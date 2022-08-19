@@ -28,8 +28,6 @@ const updateInfo=async function(req,res){
 
 
 
-
-
 const bookRange=async function(req ,res){
     let bookRange=await bookcollectionModel.find({pirce:{$gte:50,$lte:100}})
     let fetch=bookRange.map(ele=>ele.author_id)
