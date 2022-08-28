@@ -2,11 +2,19 @@ const mongoose = require('mongoose');
 
 const createuserSchema = new mongoose.Schema( {
     name: String,
-    balance:{type:Number,default:100},
+    balance:{
+        type:Number,
+        default:100
+    },
     address:String,
     age: Number,
-    gender: {type: String,enum: ["male", "female", "other"]},
-    isfreeAppUser:{type:Boolean,default:false}
+    gender: {
+        type: String,
+        enum: ["male", "female", "other"]
+    },
+    isFreeAppUser:{
+        type:Boolean,
+        default:false}
 }, { timestamps: true });
 
 module.exports = mongoose.model('CreateUser', createuserSchema)
