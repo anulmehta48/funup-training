@@ -39,7 +39,7 @@ Create API's to do each of the following:
             text0 <text you want as a caption>
             text1 <optional>
             username chewie12345
-            password meme@123
+            password mem123e@
 
             4. Return a response with a body like this
             "data": {
