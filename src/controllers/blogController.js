@@ -8,34 +8,41 @@ const createBlog = async (req, res) => {
     if (Object.keys(Blog).length == 0) {
       return res.status(400).send({ status: false, msg: "Invalid request Please provide valid blog details", });
     }
-    if (!Blog.title) return res.status(400).send({ msg: " title is required " });
-    if (!Blog.body) return res.status(400).send({ msg: "body is required " });
-    if (!Blog.authorId) return res.status(400).send({ msg: " authorId is required " });
-    if (!Blog.category) return res.status(400).send({ msg: " category is require" });
-    let requestUserId = req.body.authorId
+    let { title, body, authorId, category, isPublished } = Blog;
+    if (!title) return res.status(400).send({ status: false, msg: " title is required " });
+    if (!body) return res.status(400).send({ status: false, msg: "body is required " });
+    if (!authorId) return res.status(400).send({ status: false, msg: " authorId is required " });
+    if (!category) return res.status(400).send({ status: false, msg: " category is require" });
+
+    let requestUserId = authorId
     if (requestUserId !== req.loggedInUser) {
       return res.status(401).send({ status: false, msg: "Permission Denied for this User" })
-
     }
+    if (isPublished === true) {
+      Blog['publishedAt'] = new Date()
+    }
+
+
     let blogCreated = await blogModel.create(Blog);
     res.status(201).send({ status: true, data: blogCreated });
   } catch (error) {
     res.status(500).send({ msg: error.message });
   }
 };
+
 //-------------------------------------------------------------------------------------------------------------------//
 const getBlogs = async function (req, res) {
   try {
-  
+
     let obj = { isDeleted: false, isPublished: true }
     let { authorId, category, tags, subcategory: subcategory } = req.query
-    
-   
+
+
     if (authorId) { obj.authorId = authorId }
     if (category) { obj.category = category }
     if (tags) { obj.tags = { $in: [tags] } }
     if (subcategory) { obj.subcategory = { $in: [subcategory] } }
-    
+
 
     let savedData = await blogModel.find(obj)
     if (savedData.length == 0) {
@@ -49,7 +56,7 @@ const getBlogs = async function (req, res) {
 }
 
 //-------------------------------------------------------------------------------------------------------------------//
-const updateBlog = async function(req, res){
+const updateBlog = async function (req, res) {
   try {
 
     let inputId = req.params.blogId;
@@ -63,7 +70,7 @@ const updateBlog = async function(req, res){
     let subcategory = req.body.subcategory;
 
     if (Object.keys(reqBody).length == 0) {
-      return res.status(400).send({status: false,msg: "Invalid request Please provide valid Author  details"});
+      return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author  details" });
     }
 
     let date = Date.now();

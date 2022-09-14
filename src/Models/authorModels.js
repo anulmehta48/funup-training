@@ -4,7 +4,6 @@ const authorSchema = new mongoose.Schema(
     fname: {
       type: String,
       required: true,
-      
     },
     lname: {
       type: String,
@@ -19,7 +18,6 @@ const authorSchema = new mongoose.Schema(
       type: String,
       unique:true,
       required: true,
-     
     },
     password: {
       type: String,

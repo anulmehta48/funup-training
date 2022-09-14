@@ -41,13 +41,13 @@ const authorize = async function (req, res, next) {
     }
   
     let validAuthor = req.loggedInUser
-    let RequestedQueryId = req.query.authorId
-    if (RequestedQueryId !== validAuthor) {
-      return res.status(403).send({ status: false, msg: " Permission is Denied for this User " })
-    }
+    // let RequestedQueryId = req.query.authorId
+    // if (RequestedQueryId !== validAuthor) {
+    //   return res.status(403).send({ status: false, msg: " Permission is Denied for this User " })
+    // }
     let savedData = await blogModel.find(req.query)
     if (!savedData[0]) {
-      return res.status(400).send({ status: false, msg: "no blog exists with the given query" })
+      return res.status(404).send({ status: false, msg: "no blog exists with the given query" })
     }
 
     let arr = []

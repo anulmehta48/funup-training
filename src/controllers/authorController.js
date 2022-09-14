@@ -12,24 +12,36 @@ const createAuthor = async function (req, res) {
   try {
     if (Object.keys(author).length == 0) {
       return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author details" });
-    } else if (!fname) {
-      res.status(400).send({ status: false, msg: "The request is missing a mandatory First Name !" });
-    } else if (!lname) {
-      res.status(400).send({ status: false, msg: "The request is missing a mandatory Last Name !" });
-    } else if (!title) {
-      res.status(400).send({ status: false, msg: "The request is missing a mandatory Title !" });
-    } else if (!email) {
-      res.status(400).send({ status: false, msg: "The request is missing a mandatory email !" });
-    } else if (!validation.validate(email)) {
-      res.status(400).send({ status: false, msg: "please use right format in your email ID" });
-    } else if (email == authorModel.find(email)) {
-      res.status(400).send({ status: false, msg: "Please give another email Id, email id is already present" });
-    } else if (!pw) {
-      res.status(400).send({ status: false, msg: "The request is missing a mandatory Password" });
-    } else {
-      let authorCreated = await authorModel.create(author);
-      res.status(201).send({status:true, data: authorCreated });
     }
+    if (!fname) {
+     return  res.status(400).send({ status: false, msg: "The request is missing a mandatory First Name !" });
+    }
+    if (!lname) {
+     return  res.status(400).send({ status: false, msg: "The request is missing a mandatory Last Name !" });
+    }
+    if (!title) {
+     return  res.status(400).send({ status: false, msg: "The request is missing a mandatory Title !" });
+    }
+    let validTitle = ['Mr', 'Mrs', 'Miss'];
+    if (!validTitle.includes(title)) {
+      return res.status(400).send({ status: false, msg: "title should be one of Mr, Mrs, Miss" });
+    }
+    if (!email) {
+      res.status(400).send({ status: false, msg: "The request is missing a mandatory email !" });
+    }
+    if (!validation.validate(email)) {
+      return res.status(400).send({ status: false, msg: "please use right format in your email ID" });
+    }
+    if (email == await authorModel.find({email})) {
+      return res.status(400).send({ status: false, msg: "Please give another email address, this email address already present" });
+    }
+    if (!pw) {
+      return res.status(400).send({ status: false, msg: "The request is missing a mandatory Password" });
+    }
+
+    let authorCreated = await authorModel.create(author);
+    res.status(201).send({ status: true, data: authorCreated });
+
   } catch (err) {
     console.log("This is the error :", err.message);
     res.status(500).send({ msg: "Error", error: err.message });
